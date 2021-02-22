@@ -45,11 +45,11 @@ class User < ActiveRecord::Base
     update_attribute(:activated_at, Time.zone.now)
   end
 
-  # Отправляет электронное письмо для активации.
   def send_activation_email
     UserMailer.account_activation(self).deliver_now
   end
 
+  # Устанавливает атрибуты для сброса пароля.
   def create_reset_digest
     self.reset_token = User.new_token
     update_attribute(:reset_digest,  User.digest(reset_token))
@@ -64,16 +64,17 @@ class User < ActiveRecord::Base
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
   end
-  
+
   private
 
-   # Переводит адрес электронной почты в нижний регистр.
-  def downcase_email
-    self.email = email.downcase
-  end
+    # Переводит адрес электронной почты в нижний регистр.
+    def downcase_email
+      self.email = email.downcase
+    end
 
-  def create_activation_digest
-    self.activation_token  = User.new_token
-    self.activation_digest = User.digest(activation_token)
-  end
+    # Создает и присваивает активационнй токен и дайджест.
+    def create_activation_digest
+      self.activation_token  = User.new_token
+      self.activation_digest = User.digest(activation_token)
+    end
 end
