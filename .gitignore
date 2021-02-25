@@ -16,3 +16,6 @@
 !/log/.keep
 /tmp
 /vendor/cache
+
+# Игнорирование загруженных тестовых изображений.
+/public/uploads
